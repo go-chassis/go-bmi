@@ -1,0 +1,6 @@
+FROM alpine
+# FROM scratch
+COPY ./calculator /root/
+RUN	chmod +x /root/calculator
+COPY ./calculator.conf /root/conf
+CMD ["/root/calculator"]

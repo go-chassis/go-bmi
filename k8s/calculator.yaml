@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculator
+  namespace: bmi
+  labels:
+    app: calculator
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: http
+  # externalIPs: [192.168.43.70]
+  selector:
+    app: calculator
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: calculator
+  namespace: bmi
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: calculator
+        version: v1
+    spec:
+      containers:
+      - name: calculator
+        image: bmi/calculator:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+---
+
