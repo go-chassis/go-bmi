@@ -7,7 +7,7 @@ cse:
   protocols:
     rest:
       listenAddress: 0.0.0.0:8080
-      advertiseAddress: 0.0.0.0:8080
+      advertiseAddress: calculator.bmi:8080
   handler:
     chain:
       Provider:
