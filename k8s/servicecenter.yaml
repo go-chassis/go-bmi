@@ -9,7 +9,10 @@ spec:
   ports:
   - port: 30100
     # targetPort: 30100
-    name: http
+    name: servicecenter
+  - port: 30103
+    targetPort: 30103
+    name: frontend
   externalIPs: [192.168.43.70]
   type: NodePort
   selector:
@@ -34,5 +37,6 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 30100
+        - containerPort: 30103
 ---
 
