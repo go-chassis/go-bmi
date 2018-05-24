@@ -27,6 +27,13 @@ spec:
         app: webapp
         version: v1
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: debug
+                operator: Exists
       containers:
       - name: webapp
         image: bmi/webapp:v1
