@@ -10,6 +10,11 @@ GOBUILD=$(GOBIN) build
 
 all: k8s.calculator k8s.webapp
 
+docker: docker.webapp docker.calculator
+
+bin: webapp calculator
+
+
 webapp:
 	cd ./web-app; $(GOBUILD) -ldflags $(STATIC_FLAGS)
 
