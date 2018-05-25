@@ -6,10 +6,12 @@ DOCKERBIN = $(shell which docker)
 GOBIN=$(shell which go)
 GOBUILD=$(GOBIN) build
 
-.PHONY: calculator
+.PHONY: calculator webapp
+
+all: k8s.calculator k8s.webapp
 
 webapp:
-	cd ./web-app; $(GOBUILD) -gcflags '-l -N'
+	cd ./web-app; $(GOBUILD) -ldflags $(STATIC_FLAGS)
 
 docker.webapp: webapp
 	mv ./web-app/web-app ./k8s/
@@ -17,7 +19,7 @@ docker.webapp: webapp
 
 k8s.webapp: docker.webapp
 	distribute-image.sh bmi/webapp:v1
-	kubectl delete -f ./k8s/webapp.yaml
+	-kubectl delete -f ./k8s/webapp.yaml
 	kubectl apply -f ./k8s/webapp.yaml
 
 calculator:
@@ -29,7 +31,7 @@ docker.calculator: calculator
 
 k8s.calculator: docker.calculator
 	distribute-image.sh bmi/calculator:v1
-	kubectl delete -f ./k8s/calculator.yaml
+	-kubectl delete -f ./k8s/calculator.yaml
 	kubectl apply -f ./k8s/calculator.yaml
 
 
@@ -38,5 +40,5 @@ docker.servicecenter:
 
 k8s.servicecenter: docker.servicecenter
 	distribute-image.sh bmi/servicecenter:v1
-	kubectl delete -f ./k8s/servicecenter.yaml
+	-kubectl delete -f ./k8s/servicecenter.yaml
 	kubectl apply -f ./k8s/servicecenter.yaml
