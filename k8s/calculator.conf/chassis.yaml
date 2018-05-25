@@ -7,7 +7,8 @@ cse:
   protocols:
     rest:
       listenAddress: 0.0.0.0:8080
-      advertiseAddress: calculator.bmi:8080
+      # Under k8s, don't set advertiseAddress, the chassis will register the service with the current IP automatically
+      # advertiseAddress: 0.0.0.0:8080
   handler:
     chain:
       Provider:
