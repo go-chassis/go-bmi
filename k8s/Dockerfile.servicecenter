@@ -1,13 +1,5 @@
-FROM base/archlinux:fish
-# FROM alpine
-# FROM scratch
+FROM alpine
 COPY ./service-center /root/
 RUN	chmod +x /root/service-center
 COPY ./servicecenter.conf /root/conf
-COPY ./frontend /root/
-COPY ./startsc.sh /root/
-COPY ./app /root/app
-# CMD ["/root/service-center > /root/sc.log 2>&1 &", "/root/frontend"]
-RUN chmod +x /root/startsc.sh
-CMD ["/root/startsc.sh"]
-# CMD ["/root/service-center"]
+CMD ["/root/service-center"]
