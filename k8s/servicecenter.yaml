@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: servicecenter
-  namespace: bmi
+  # namespace: bmi
   labels:
     app: servicecenter
 spec:
@@ -22,7 +22,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: servicecenter
-  namespace: bmi
+  # namespace: bmi
 spec:
   replicas: 1
   template:
