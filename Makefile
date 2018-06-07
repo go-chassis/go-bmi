@@ -40,10 +40,6 @@ k8s.calculator: docker.calculator
 	kubectl apply -f ./k8s/calculator.yaml
 
 
-docker.servicecenter:
-	cd ./k8s; $(DOCKERBIN) build -t bmi/servicecenter:v1 -f ./Dockerfile.servicecenter .
-
-k8s.servicecenter: docker.servicecenter
-	distribute-image.sh bmi/servicecenter:v1
+k8s.servicecenter:
 	-kubectl delete -f ./k8s/servicecenter.yaml
 	kubectl apply -f ./k8s/servicecenter.yaml
