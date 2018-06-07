@@ -1,5 +1,0 @@
-FROM alpine
-COPY ./service-center /root/
-RUN	chmod +x /root/service-center
-COPY ./servicecenter.conf /root/conf
-CMD ["/root/service-center"]

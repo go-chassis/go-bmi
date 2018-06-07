@@ -1,6 +1,0 @@
-FROM base/archlinux:fish
-# FROM scratch
-COPY ./service-center.release /root/service-center
-RUN	chmod +x /root/service-center
-COPY ./servicecenter.conf /root/conf
-CMD ["/root/service-center"]

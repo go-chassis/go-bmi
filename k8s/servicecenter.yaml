@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
       - name: servicecenter
-        image: bmi/servicecenter:v1
+        image: servicecomb/service-center
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 30100
