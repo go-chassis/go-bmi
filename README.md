@@ -221,7 +221,7 @@ func main() {
 }
 ```
 
-#### Play with kubernetes
+### Play with kubernetes
 The docker builds & kubernetes orchestrations are already there in the `Makefile`. There are 3 stages from binary builds to kubernetes deployments:
 - build binaries: `make $target`, for example `make calculator`, this will build the calculator binary
 - build docker images: `make docker.$target`, for example `make docker.calculator`, this will build the calculator image
@@ -231,7 +231,6 @@ Handle all by `make`:
 - `make bin`: build all the binaries
 - `make docker`: execute `make bin`, then build the docker images
 - `make k8s`: execute `make docker`, then deploy the newly built image to the kubernetes cluster
-
 
 
 The k8s related make commands will call `./scripts/distribute-image.sh` to dispatch docker images to k8s clusters. The script will try to find the local IP and the k8s cluster's nodes IP, and execute some SSH command on the nodes. So there are 2 points you'll take care of:
