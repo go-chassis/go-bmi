@@ -8,7 +8,7 @@ GOBUILD=$(GOBIN) build
 
 .PHONY: calculator webapp
 
-all: k8s.calculator k8s.webapp
+k8s: k8s.calculator k8s.webapp
 
 docker: docker.webapp docker.calculator
 
@@ -23,7 +23,7 @@ docker.webapp: webapp
 	cd ./k8s; $(DOCKERBIN) build -t bmi/webapp:v1 -f ./Dockerfile.webapp .
 
 k8s.webapp: docker.webapp
-	distribute-image.sh bmi/webapp:v1
+	./scripts/distribute-image.sh bmi/webapp:v1
 	-kubectl delete -f ./k8s/webapp.yaml
 	kubectl apply -f ./k8s/webapp.yaml
 
@@ -35,7 +35,7 @@ docker.calculator: calculator
 	cd ./k8s; $(DOCKERBIN) build -t bmi/calculator:v1 -f ./Dockerfile.calculator .
 
 k8s.calculator: docker.calculator
-	distribute-image.sh bmi/calculator:v1
+	./scripts/distribute-image.sh bmi/calculator:v1
 	-kubectl delete -f ./k8s/calculator.yaml
 	kubectl apply -f ./k8s/calculator.yaml
 
