@@ -1,14 +1,29 @@
 SHELL := /bin/bash
-STATIC_FLAGS = '-w -extldflags "-static"'
-
-DOCKERBIN = $(shell which docker)
-
 GOBIN=$(shell which go)
 GOBUILD=$(GOBIN) build
 
+DOCKERBIN = $(shell which docker)
+
+DEBUG_FLAGS := ""
+STATIC_FLAGS = '-w -extldflags "-static"'
+ifneq ($(origin DEBUG), undefined)
+	STATIC_FLAGS = '-extldflags "-static"'
+	# Get the golang version and coresponding gcflags pattern
+	goVerStr := $(shell go version | awk '{split($$0,a," ")}; {print a[3]}')
+	goVerNum := $(shell echo $(goVerStr) | awk '{split($$0,a,"go")}; {print a[2]}')
+	goVerMajor := $(shell echo $(goVerNum) | awk '{split($$0, a, ".")}; {print a[1]}')
+	goVerMinor := $(shell echo $(goVerNum) | awk '{split($$0, a, ".")}; {print a[2]}')
+	gcflagsPattern := $(shell ( [ $(goVerMajor) -ge 1 ] && [ ${goVerMinor} -ge 10 ] ) && echo 'all=' || echo '')
+
+	# @echo $(goVerStr)
+	DEBUG_FLAGS = "$(gcflagsPattern)-l -N"
+endif
+
+
 .PHONY: calculator webapp
 
-k8s: k8s.calculator k8s.webapp
+k8s: k8s.calculator k8s.webapp k8s.servicecenter
+	echo '{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"bmi"}}' | kubectl apply -f -
 
 docker: docker.webapp docker.calculator
 
@@ -16,7 +31,7 @@ bin: webapp calculator
 
 
 webapp:
-	cd ./web-app; $(GOBUILD) -ldflags $(STATIC_FLAGS)
+	cd ./web-app; $(GOBUILD) -ldflags $(STATIC_FLAGS) -gcflags $(DEBUG_FLAGS)
 
 docker.webapp: webapp
 	mv ./web-app/web-app ./k8s/
@@ -28,7 +43,7 @@ k8s.webapp: docker.webapp
 	kubectl apply -f ./k8s/webapp.yaml
 
 calculator:
-	cd ./calculator; $(GOBUILD) -ldflags $(STATIC_FLAGS)
+	cd ./calculator; $(GOBUILD) -ldflags $(STATIC_FLAGS) -gcflags $(DEBUG_FLAGS)
 
 docker.calculator: calculator
 	mv ./calculator/calculator ./k8s/
