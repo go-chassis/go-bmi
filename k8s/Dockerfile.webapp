@@ -1,0 +1,5 @@
+FROM alpine
+COPY ./web-app /root/
+RUN	chmod +x /root/web-app
+COPY ./webapp.conf /root/conf
+CMD ["/root/web-app"]

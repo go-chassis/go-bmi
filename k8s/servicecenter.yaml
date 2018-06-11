@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: servicecenter
+  # namespace: bmi
+  labels:
+    app: servicecenter
+spec:
+  ports:
+  - port: 30100
+    # targetPort: 30100
+    name: servicecenter
+  - port: 30103
+    targetPort: 30103
+    name: frontend
+  externalIPs: [192.168.43.70]
+  type: NodePort
+  selector:
+    app: servicecenter
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: servicecenter
+  # namespace: bmi
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: servicecenter
+        version: v1
+    spec:
+      containers:
+      - name: servicecenter
+        image: servicecomb/service-center
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 30100
+        - containerPort: 30103
+---
+
