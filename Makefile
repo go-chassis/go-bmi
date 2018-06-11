@@ -23,6 +23,7 @@ endif
 .PHONY: calculator webapp
 
 k8s: k8s.calculator k8s.webapp
+	echo '{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"bmi"}}' | kubectl apply -f -
 
 docker: docker.webapp docker.calculator
 
