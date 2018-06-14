@@ -22,8 +22,10 @@ endif
 
 .PHONY: calculator webapp
 
-k8s: k8s.calculator k8s.webapp k8s.servicecenter
+namespace:
 	echo '{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"bmi"}}' | kubectl apply -f -
+
+k8s: namespace k8s.calculator k8s.webapp k8s.servicecenter
 
 docker: docker.webapp docker.calculator
 
