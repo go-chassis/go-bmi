@@ -37,10 +37,10 @@ webapp:
 
 docker.webapp: webapp
 	mv ./web-app/web-app ./k8s/
-	cd ./k8s; $(DOCKERBIN) build -t bmi/webapp:v1 -f ./Dockerfile.webapp .
+	cd ./k8s; $(DOCKERBIN) build -t bmi/webapp:0.0.1 -f ./Dockerfile.webapp .
 
 k8s.webapp: docker.webapp
-	./scripts/distribute-image.sh bmi/webapp:v1
+	./scripts/distribute-image.sh bmi/webapp:0.0.1
 	-kubectl delete -f ./k8s/webapp.yaml
 	kubectl apply -f ./k8s/webapp.yaml
 
@@ -49,10 +49,10 @@ calculator:
 
 docker.calculator: calculator
 	mv ./calculator/calculator ./k8s/
-	cd ./k8s; $(DOCKERBIN) build -t bmi/calculator:v1 -f ./Dockerfile.calculator .
+	cd ./k8s; $(DOCKERBIN) build -t bmi/calculator:0.0.2 -f ./Dockerfile.calculator .
 
 k8s.calculator: docker.calculator
-	./scripts/distribute-image.sh bmi/calculator:v1
+	./scripts/distribute-image.sh bmi/calculator:0.0.2
 	-kubectl delete -f ./k8s/calculator.yaml
 	kubectl apply -f ./k8s/calculator.yaml
 
