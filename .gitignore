@@ -2,3 +2,4 @@ k8s/calculator
 k8s/web-app
 k8s/service-center
 k8s/frontend
+vendor/

@@ -22,7 +22,7 @@ if [ "$nodeIPs" == "" ]; then
 fi
 
 
-localip=$(ip addr | grep 'inet.*wlp3s0' | awk '{print $2}' | awk '{split($0,a,"/")}; {print a[1]}')
+localip=$(ip addr | grep 'inet.*wlp' | awk '{print $2}' | awk '{split($0,a,"/")}; {print a[1]}')
 if [ "$localip" == "" ]; then
 	echo "Failed to get local ip"
 	exit 1

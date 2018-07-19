@@ -25,7 +25,7 @@ spec:
     metadata:
       labels:
         app: calculator
-        version: v1
+        version: 0.0.2
     spec:
       containers:
       - name: calculator
