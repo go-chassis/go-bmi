@@ -6,10 +6,11 @@ import (
 	"net/http"
 
 	"flag"
-	"github.com/ServiceComb/go-chassis"
-	"github.com/ServiceComb/go-chassis/client/rest"
-	"github.com/ServiceComb/go-chassis/core"
-	"github.com/ServiceComb/go-chassis/core/lager"
+	"github.com/go-chassis/go-chassis"
+	"github.com/go-chassis/go-chassis/client/rest"
+	"github.com/go-chassis/go-chassis/core"
+	"github.com/go-chassis/go-chassis/core/lager"
+	"io/ioutil"
 )
 
 func main() {
@@ -17,7 +18,7 @@ func main() {
 	http.HandleFunc("/calculator/bmi", BmiRequestHandler)
 
 	if err := chassis.Init(); err != nil {
-		lager.Logger.Error("Init FAILED", err)
+		lager.Logger.Errorf("Init FAILED", err.Error())
 		return
 	}
 
@@ -33,12 +34,18 @@ func BmiRequestHandler(w http.ResponseWriter, r *http.Request) {
 
 	requestURI := fmt.Sprintf("cse://calculator/bmi?height=%s&weight=%s", heightstr, weightstr)
 	restInvoker := core.NewRestInvoker()
-	req, _ := rest.NewRequest("GET", requestURI)
+	req, _ := rest.NewRequest("GET", requestURI, nil)
 	resp, _ := restInvoker.ContextDo(context.TODO(), req)
 
 	w.Header().Set("content-type", "application/json")
-	w.WriteHeader(resp.GetStatusCode())
-	w.Write(resp.ReadBody())
+	w.WriteHeader(resp.StatusCode)
+
+	defer resp.Body.Close()
+	body,err:=ioutil.ReadAll(resp.Body)
+	if err!=nil {
+		lager.Logger.Errorf("Read response body ERROR: %s", err.Error())
+	}
+	w.Write(body)
 }
 
 func BmiPageHandler(w http.ResponseWriter, r *http.Request) {

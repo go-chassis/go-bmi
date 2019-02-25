@@ -1,15 +1,15 @@
 package main
 
 import (
-	"github.com/ServiceComb/go-chassis"
-	"github.com/ServiceComb/go-chassis/core/lager"
+	"github.com/go-chassis/go-chassis"
+	"github.com/go-chassis/go-chassis/core/lager"
 	"github.com/ServiceComb-samples/go-bmi/calculator/app"
 )
 
 func main() {
 	chassis.RegisterSchema("rest", &app.CalculateBmi{})
 	if err := chassis.Init(); err != nil {
-		lager.Logger.Error("Init FAILED", err)
+		lager.Logger.Errorf("Init FAILED %s", err.Error())
 		return
 	}
 	chassis.Run()

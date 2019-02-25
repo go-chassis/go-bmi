@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/ServiceComb/go-chassis/core/registry"
-	rf "github.com/ServiceComb/go-chassis/server/restful"
+	"github.com/go-chassis/go-chassis/core/registry"
+	rf "github.com/go-chassis/go-chassis/server/restful"
 )
 
 type CalculateBmi struct {
@@ -15,7 +15,7 @@ type CalculateBmi struct {
 
 func (c *CalculateBmi) URLPatterns() []rf.Route {
 	return []rf.Route{
-		{http.MethodGet, "/bmi", "Calculate"},
+		{http.MethodGet, "/bmi", "Calculate","",nil,nil,nil},
 	}
 }
 

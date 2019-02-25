@@ -1,4 +1,4 @@
-# Develop Body Mass Index(BMI) via ServiceComb Go-chassis
+# Develop Body Mass Index(BMI) via go-chassis
 
 
 ## Prerequisite 
@@ -7,14 +7,16 @@
 
 * Install Git, details can refer to [Git Installing Guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
-* Install Golang 1.8+, details can refer to [Golang Installing Guide](https://golang.org/doc/install)
+* Install Golang 1.11+, details can refer to [Golang Installing Guide](https://golang.org/doc/install)
 
-* Install ServiceComb Go-chassis(SDK) by executing the following commands.
+* Install go-chassis(SDK) by executing the following commands.
 
    ```bash
-   mkdir -p $GOPATH/src/github.com/ServiceComb
-   cd $GOPATH/src/github.com/ServiceComb
-   git clone https://github.com/ServiceComb/go-chassis.git
+   mkdir -p $GOPATH/src/github.com/go-chassis
+   cd $GOPATH/src/github.com/go-chassis
+   git clone https://github.com/go-chassis/go-chassis.git
+   export GO111MODULE=on
+   go mod vendor
    ```
    
 ### Run Service Center
@@ -68,7 +70,7 @@ Write handler function, which must be import the parameter type of `restful.Cont
 
 ```go
 import (
-  rf "github.com/ServiceComb/go-chassis/server/restful"
+  rf "github.com/go-chassis/go-chassis/server/restful"
 )
 	……
 func (c *CalculateBmi) Calculate(b *rf.Context) {
@@ -130,8 +132,8 @@ service_description:
 
 ```go
 import (
-  	"github.com/ServiceComb/go-chassis"
-	"github.com/ServiceComb/go-chassis/core/lager"
+  	"github.com/go-chassis/go-chassis"
+	"github.com/go-chassis/go-chassis/core/lager"
 )
 	……
   if err := chassis.Init(); err != nil {           //Init the chassis framwork
