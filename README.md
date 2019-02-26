@@ -107,7 +107,8 @@ After the completion of the preparation of the business logic code, the business
   
 In addition to some of the attributes specified in the code, more attributes are configured through the configuration file. The configuration file includes `chassis.yaml` and `microservice.yaml` , placed in the `conf` directory under the code directory. Among them, `chassis.yaml` contains public service properties, such as public AppId information,  registry type information, registry address, service protocol, transmission protocol information; `microservice.yaml`  is about the private properties of microservices, including the service name, version and so on.
 
-    `chassis.yaml`
+`chassis.yaml`
+    
 
 ```yaml
 APPLICATION_ID: bmi						   
@@ -120,7 +121,7 @@ cse:
       listenAddress: 0.0.0.0:8080           
 ```
 
-​	`microservice.yaml`
+`microservice.yaml`
 
 ```yaml
 service_description:
@@ -137,7 +138,7 @@ import (
 )
 	……
   if err := chassis.Init(); err != nil {           //Init the chassis framwork
-    lager.Logger.Error("init failed", err)
+    lager.Logger.Errorf("Init FAILED %s", err.Error())
     return
   }
   chassis.Run()                                     //Run the microservice
@@ -212,7 +213,7 @@ func main() {
   http.HandleFunc("/calculator/bmi", BmiRequestHandler)
 
   if err := chassis.Init(); err != nil {
-    lager.Logger.Error("Init fail", err)
+    lager.Logger.Errorf("Init FAILED %s", err.Error())
     return
   }
 

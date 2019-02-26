@@ -18,7 +18,7 @@ func main() {
 	http.HandleFunc("/calculator/bmi", BmiRequestHandler)
 
 	if err := chassis.Init(); err != nil {
-		lager.Logger.Errorf("Init FAILED", err.Error())
+		lager.Logger.Errorf("Init FAILED %s", err.Error())
 		return
 	}
 
